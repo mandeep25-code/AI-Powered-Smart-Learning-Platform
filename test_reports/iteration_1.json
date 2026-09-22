@@ -1,0 +1,65 @@
+{
+  "summary": "Full backend + frontend smoke tests for SmartLearn (Node/Express + Mongo + React). Wrote 41 pytest cases covering auth, dashboard, gamification, courses, AI offline mode (tutor/roadmap/quiz/flashcards/study-plan/resume/interview/doc-qa), quizzes, flashcards, planner, all content endpoints, premium entitlements, instructor RBAC, resumes, resources and search. All 41 pass (2 skipped for missing prior state). Frontend Playwright walk-through confirmed login (student + teacher), dashboard render + Start-30-min-session XP award, theme toggle, global search, roadmap generate + node status, quiz/flashcard/plan generate buttons, premium buy/read buttons, resume analyze/save, resource vault + doc-qa tab, interview simulator, coding arena nav, student cannot see Instructor nav, teacher sees Instructor Studio and can create courses, logout available via user-menu-btn, ai-inactive-banner shown on AI pages (Roadmaps, etc.). Found one CRITICAL crash bug in the backend that would take down the whole service on bad input; fixed by adding express-async-errors and a process-level rejection guard.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "ALL async routes (e.g. POST /api/instructor/courses, POST /api/courses/:id/enroll)",
+        "issue": "Unhandled promise rejections in async Express 4 handlers crashed the entire Node process on invalid input (e.g. bad enum value, bad ObjectId). Supervisor auto-restarted but every user got 502 during the outage. Reproduced by POST /api/instructor/courses {level:'beginner'} and POST /api/courses/notanid/enroll. Fixed by installing express-async-errors and adding process.on('unhandledRejection'/'uncaughtException') in server.js so errors flow to the existing error middleware and return 500 instead of killing the process.",
+        "priority": "CRITICAL"
+      }
+    ],
+    "minor": [
+      {
+        "endpoint": "GET /api/premium",
+        "issue": "For OWNED items the list response includes the full protectedContent field. Not a leak (user owns it) but bloats every list response; consider omitting from list and requiring GET /:id/content."
+      },
+      {
+        "endpoint": "POST /api/instructor/courses",
+        "issue": "Level enum is capitalized (Beginner/Intermediate/Advanced) while the frontend/test docs suggest lowercase. Should either lowercase the enum or accept case-insensitively and validate before hitting Mongoose to return a clean 400 instead of relying on the async wrapper."
+      },
+      {
+        "endpoint": "Multiple routes",
+        "issue": "No input validation layer (Pydantic/Joi). Bad input reaches Mongoose which now returns 500. Recommend adding Joi/Zod validation and returning 400."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Global",
+       "issues": [
+         "Radix Dialog console warning: 'DialogContent requires a DialogTitle for accessibility'. Wrap dialog titles or add VisuallyHidden titles.",
+         "Login redirects to /app (not /dashboard as stated in spec) — works fine but spec mentions /dashboard route."
+       ]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Review the express-async-errors integration and the process.on rejection guard added to /app/backend/server.js (testing agent applied a safe fix). Consider adding a Joi/Zod validation middleware on top so bad payloads return 400 instead of 500.",
+    "Add DialogTitle (or VisuallyHidden title) to Radix dialogs to remove a11y warning.",
+    "Optionally omit protectedContent from GET /api/premium list even for owned items and fetch only via /:id/content."
+  ],
+  "critical_code_review_comments": [
+    "server.js originally had no protection against async handler rejections in Express 4 -> unhandled promise rejection killed the Node process. Fixed with express-async-errors.",
+    "instructor.js has 9 async handlers with zero try/catch; before the fix any validation error propagated up and crashed the process. Even with the wrapper, no route validates inputs prior to Mongoose.",
+    "premium.js returns protectedContent for owned items in the list endpoint (minor leak/bloat).",
+    "Resource type enum is ['pdf','link','doc','video'] but there is no OpenAPI/type contract shared with the frontend so easy to send invalid values.",
+    "No rate limiting on /api/auth/login (brute-force possible)."
+  ],
+  "updated_files": [
+    "/app/backend/server.js (added express-async-errors and process-level rejection guards)",
+    "/app/backend/package.json (yarn add express-async-errors)",
+    "/app/backend/tests/backend_test.py (new)"
+  ],
+  "success_rate": {"backend": "100% (41/41 executed passed, 2 conditional skipped)", "frontend": "~95% (all critical flows work, minor a11y warning only)"},
+  "test_credentials": "student@smartlearn.com/Student@123, teacher@smartlearn.com/Teacher@123, admin@smartlearn.com/Admin@123",
+  "seed_data_creation": "Fresh TEST_* users created during registration/premium tests. Multiple TEST Course entries created by instructor tests (visible in teacher dashboard). Cleanup not implemented.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend uses Node/Express (not FastAPI); tests in /app/backend/tests/backend_test.py, run via pytest. All data-testids verified. AI banner only renders on AI-related pages (Roadmaps, Quizzes, Flashcards, Planner, Interview, Resume) not on the plain Dashboard — that's an intentional UX choice, not a bug. logout-btn lives inside the user-menu-btn dropdown, not directly in the shell. Level enum values are capitalized ('Beginner'). Resource type enum: pdf|link|doc|video. Study plan task toggle payload: {dayIndex, taskIndex, done}. Flashcard review payload: {correct: bool}. Resume payload: {title, template, data}.",
+  "rca of the issue": "Root cause of the crash: Express 4 does not auto-forward rejected promises from async route handlers to the error middleware. When any route hit an unhandled Mongoose error (e.g., invalid ObjectId cast in POST /api/courses/notanid/enroll, or invalid enum in POST /api/instructor/courses {level:'beginner'}), Node treated the rejection as fatal and exited. Supervisor restarted the process but every request during the ~3-5s startup window returned 502 at the Cloudflare/K8s ingress. Reproduction: `curl -X POST /api/courses/notanid/enroll -H 'Authorization: Bearer <student token>'` -> process dies. Mitigation applied: `require('express-async-errors')` at the top of server.js (patches Router to catch and forward), plus process.on('unhandledRejection'/'uncaughtException') as belt-and-suspenders. Verified: after fix, invalid ObjectId returns HTTP 500 and /api/health continues to serve 200 immediately."
+}

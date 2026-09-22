@@ -1,0 +1,130 @@
+{
+  "project_name": "SmartLearn AI",
+  "archetype": "Precision Intelligence & Kinetic Learning (Swiss High-Contrast + Cyber Elegance)",
+  "context_type": "hybrid_fullstack (Education SaaS & Interactive Learning Platform)",
+  "theme_strategy": {
+    "default_mode": "dark",
+    "toggle_supported": true,
+    "description": "Dark-first aesthetic with obsidian depth, ambient glass glows, vibrant kinetic violet/indigo accents for AI features, neon emerald for coding success & streak momentum, and high legibility data structures."
+  },
+  "typography": {
+    "font_family_heading": "Outfit, Plus Jakarta Sans, system-ui, sans-serif",
+    "font_family_body": "Inter, Figtree, system-ui, sans-serif",
+    "font_family_mono": "JetBrains Mono, Fira Code, monospace",
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight",
+      "h3_subsection": "text-xl sm:text-2xl font-semibold tracking-tight",
+      "h4_card": "text-lg sm:text-xl font-semibold",
+      "body_lead": "text-lg sm:text-xl font-normal leading-relaxed text-muted-foreground",
+      "body": "text-base font-normal leading-relaxed text-foreground",
+      "caption": "text-xs sm:text-sm font-medium tracking-wide uppercase text-muted-foreground"
+    },
+    "pairing_rules": [
+      "Headings MUST NOT use standard Inter. Use Outfit or Plus Jakarta Sans with tracking-tight.",
+      "Code editors, DSA problem inputs, and streak stats MUST use JetBrains Mono or Fira Code.",
+      "Overlines/Eyebrow labels MUST be uppercase, text-xs, tracking-[0.2em], with a subtle primary-accent tint."
+    ]
+  },
+  "colors": {
+    "dark_mode": {
+      "background": "#090D16",
+      "surface": "#111827",
+      "surface_elevated": "#1F2937",
+      "card": "#0F172A",
+      "card_hover": "#1E293B",
+      "border": "#1E293B",
+      "border_highlight": "#334155",
+      "primary": "#6366F1",
+      "primary_hover": "#4F46E5",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#0ea5e9",
+      "secondary_foreground": "#FFFFFF",
+      "accent_ai": "#8B5CF6",
+      "accent_streak": "#F59E0B",
+      "accent_success": "#10B981",
+      "accent_danger": "#EF4444",
+      "text_main": "#F8FAFC",
+      "text_muted": "#94A3B8",
+      "text_dim": "#64748B"
+    },
+    "light_mode": {
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "surface_elevated": "#F1F5F9",
+      "card": "#FFFFFF",
+      "card_hover": "#F8FAFC",
+      "border": "#E2E8F0",
+      "border_highlight": "#CBD5E1",
+      "primary": "#4F46E5",
+      "primary_hover": "#4338CA",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#0284C7",
+      "secondary_foreground": "#FFFFFF",
+      "accent_ai": "#7C3AED",
+      "accent_streak": "#D97706",
+      "accent_success": "#059669",
+      "accent_danger": "#DC2626",
+      "text_main": "#0F172A",
+      "text_muted": "#475569",
+      "text_dim": "#94A3B8"
+    },
+    "forbidden_colors": [
+      "#7351B7",
+      "#1B93A4"
+    ]
+  },
+  "visual_enhancers": {
+    "glassmorphism": "backdrop-blur-xl bg-slate-900/80 dark:bg-slate-950/80 border border-slate-800/60 shadow-xl",
+    "tracing_beam": "relative rounded-xl border border-indigo-500/30 bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent p-[1px]",
+    "card_style": "rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-indigo-500/40 hover:shadow-lg hover:shadow-indigo-500/5",
+    "glowing_badge": "inline-flex items-center rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-400 border border-indigo-500/20"
+  },
+  "grids_and_layouts": {
+    "app_shell": "Flex layout with fixed left sidebar (64px collapsed, 256px expanded), sticky top header (height 64px, z-40 with backdrop blur), and scrollable main content region.",
+    "dashboard_grid": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 p-6",
+    "coding_arena_layout": "Split pane with left problem statement & test cases, right Monaco/CodeMirror code editor and console output.",
+    "bento_spans": {
+      "hero_stat": "col-span-full lg:col-span-8 row-span-2",
+      "side_card": "col-span-full md:col-span-4 row-span-1",
+      "feed_list": "col-span-full lg:col-span-4 row-span-2"
+    }
+  },
+  "motion_and_interactions": {
+    "framer_motion_usage": "Page transitions with opacity fade and slide-up (y: 12 -> 0). Staggered children animations for course cards, roadmap nodes, and quiz options.",
+    "hover_states": "All interactive buttons and cards MUST have visible hover transforms (scale-102 or translate-y-[-2px]) and border color shifts.",
+    "micro_interactions": "Animated streak counter pulse, progress bar fill animations, voice tutor waveform visualizer, code runner pulse state.",
+    "accessibility": "Respect prefers-reduced-motion using Framer Motion's useReducedMotion hook or tailwind motion-reduce utilities."
+  },
+  "image_urls": {
+    "hero_learning": "https://images.unsplash.com/photo-1513258496099-48168024aec0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzV8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc3R1ZHlpbmclMjBsYXB0b3AlMjBvbmxpbmUlMjBsZWFybmluZyUyMG1vZGVybnxlbnwwfHx8fDE3ODk4ODg1MTR8MA&ixlib=rb-4.1.0&q=85",
+    "student_focused": "https://images.unsplash.com/photo-1593698054469-2bb6fdf4b512?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzV8MHwxfHNlYXJjaHw0fHxzdHVkZW50JTIwc3R1ZHlpbmclMjBsYXB0b3AlMjBvbmxpbmUlMjBsZWFybmluZyUyMG1vZGVybnxlbnwwfHx8fDE3ODk4ODg1MTR8MA&ixlib=rb-4.1.0&q=85",
+    "young_developer": "https://images.unsplash.com/photo-1584697964328-b1e7f63dca95?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzV8MHwxfHNlYXJjaHszfHxzdHVkZW50JTIwc3R1ZHlpbmclMjBsYXB0b3AlMjBvbmxpbmUlMjBsZWFybmluZyUyMG1vZGVybnxlbnwwfHx8fDE3ODk4ODg1MTR8MA&ixlib=rb-4.1.0&q=85",
+    "online_tutor": "https://images.pexels.com/photos/6958511/pexels-photo-6958511.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "laptop_working": "https://images.pexels.com/photos/7776433/pexels-photo-7776433.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+  },
+  "component_guidelines": {
+    "shadcn_customization": "All Shadcn components (Dialog, Select, DropdownMenu, Tabs, Accordion, Progress, Toast) MUST be styled with Tailwind classes matching the glassmorphism and indigo dark palette. Do NOT leave standard grey default look.",
+    "testing_requirement": "EVERY interactive element (buttons, links, form fields, tab buttons, modal triggers, card actions) MUST have a data-testid attribute in kebab-case (e.g. data-testid=\"ai-tutor-send-btn\", data-testid=\"streak-counter-badge\").",
+    "toast_library": "Use Sonner (import { toast } from 'sonner') for toast notifications.",
+    "date_pickers": "Use Shadcn Calendar / Popover date pickers. NEVER native HTML input type='date'.",
+    "select_menus": "Use Shadcn Select or DropdownMenu components. NEVER native HTML select tags."
+  },
+  "instructions_to_main_agent": [
+    "Ensure both Student and Teacher (Instructor) personas can be simulated or switched easily with clear UI role toggles.",
+    "Implement comprehensive mock/real OpenRouter AI capabilities for Study Tutor, Roadmap Generator, Quiz Generator, Coding Assistant, and Resume ATS Analyzer.",
+    "Maintain an energetic gamification bar at the top or sidebar: Daily Streak counter, XP points, Level badge, and daily goal progress.",
+    "Support full dark and light mode toggle with smooth theme transition.",
+    "Provide global search (Cmd+K / Ctrl+K modal) for searching courses, topics, DSA questions, and tools.",
+    "All cards with content must have padding p-6 or p-8 to prevent text collisions with borders.",
+    "Do NOT center align the app container. Maintain clean left alignment and structural hierarchy."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Avoid generic AI slop look. Use layered dark tones, glowing borders, crisp typography, and interactive micro-animations.",
+    "Never use AI assistant emoji characters (🤖🧠💭💡🔮🎯) as primary UI icons. Use Lucide or Phosphor icons instead.",
+    "Do NOT apply universal transition (transition: all). Use specific property transitions like transition-colors, transition-transform, or transition-opacity.",
+    "Ensure all interactive and key informational elements have data-testid attributes.",
+    "Ensure max overlay opacity over photos does not exceed bg-black/50 so background imagery remains visible.",
+    "Maintain rich empty states, loading skeletons, and clear error boundaries for all dynamic views."
+  ]
+}
