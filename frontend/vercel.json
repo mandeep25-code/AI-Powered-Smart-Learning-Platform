@@ -3,5 +3,15 @@
   "outputDirectory": "build",
   "installCommand": "npm install --legacy-peer-deps",
   "framework": "create-react-app",
-  "devCommand": "npm start"
+  "devCommand": "npm start",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://ai-powered-smart-learning-platform.onrender.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

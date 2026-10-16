@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// Use the configured backend when present. Vercel also rewrites same-origin
+// /api requests to Render, which keeps production auth working if the
+// environment variable was not configured when the frontend was built.
+const backendUrl = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/+$/, "");
+
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`,
+  baseURL: `${backendUrl}/api`,
 });
 
 api.interceptors.request.use((config) => {
