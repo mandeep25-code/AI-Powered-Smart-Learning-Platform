@@ -12,7 +12,12 @@ process.on("unhandledRejection", (err) => console.error("[unhandledRejection]", 
 process.on("uncaughtException", (err) => console.error("[uncaughtException]", err));
 
 const app = express();
-app.use(cors({ origin: (process.env.CORS_ORIGINS || "*").split(","), credentials: false }));
+const configuredCorsOrigins = (process.env.CORS_ORIGINS || "*")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const corsOrigin = configuredCorsOrigins.includes("*") ? "*" : configuredCorsOrigins;
+app.use(cors({ origin: corsOrigin, credentials: false }));
 app.use(express.json({ limit: "5mb" }));
 
 // All routes are prefixed with /api for the Kubernetes ingress.
